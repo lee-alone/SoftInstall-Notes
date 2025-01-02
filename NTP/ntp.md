@@ -9,12 +9,9 @@ server ntp.ntsc.ac.cn<br>
 server cn.ntp.org.cn<br>
 server ntp1.aliyun.com<br>
 server ntp2.aliyun.com<br>
-server ntp3.aliyun.com<br>
-server ntp4.aliyun.com<br>
 server ntp.tuna.tsinghua.edu.cn<br>
 server ntp.ustc.edu.cn<br>
-server ntp.sysu.edu.cn<br>
-server ntp.bjict.edu.cn<br>
+
 
 ### 测试命令 
 w32tm /stripchart /computer:192.168.1.100<br>
