@@ -17,14 +17,14 @@ server:<br>
     interface: 0.0.0.0<br>
     access-control: 0.0.0.0/0 allow<br>
     cache-max-ttl: 86400<br>
-    cache-min-ttl: 3600
-    msg-cache-size: 50m
-    rrset-cache-size: 100m
-    module-config: "iterator"
-    outgoing-range: 8192
-    so-rcvbuf: 4m
-    prefetch: yes
-    prefetch-key: yes
+    cache-min-ttl: 3600<br>
+    msg-cache-size: 50m<br>
+    rrset-cache-size: 100m<br>
+    module-config: "iterator"<br>
+    outgoing-range: 8192<br>
+    so-rcvbuf: 4m<br>
+    prefetch: yes<br>
+    prefetch-key: yes<br>
 
 # 设置持久化缓存的路径
 auto-trust-anchor-file: "/var/lib/unbound/root.key"
@@ -98,21 +98,21 @@ sudo unbound-control status
 include-toplevel: "/etc/unbound/unbound.conf.d/*.conf"
 
 server:
-    interface: 0.0.0.0
-    access-control: 0.0.0.0/0 allow
-    do-udp: yes
-    do-tcp: yes
-    prefetch: yes
-    prefetch-key: yes
-    cache-max-ttl: 86400
-    cache-min-ttl: 3600
-    msg-cache-size: 50m
-    rrset-cache-size: 100m
-    module-config: "iterator"
-    outgoing-range: 8192
-    so-rcvbuf: 4m
-    prefetch: yes
-    prefetch-key: yes
+    interface: 0.0.0.0<br>
+    access-control: 0.0.0.0/0 allow<br>
+    do-udp: yes<br>
+    do-tcp: yes<br>
+    prefetch: yes<br>
+    prefetch-key: yes<br>
+    cache-max-ttl: 86400<br>
+    cache-min-ttl: 3600<br>
+    msg-cache-size: 50m<br>
+    rrset-cache-size: 100m<br>
+    module-config: "iterator"<br>
+    outgoing-range: 8192<br>
+    so-rcvbuf: 4m<br>
+    prefetch: yes<br>
+    prefetch-key: yes<br>
 
 # 设置持久化缓存的路径
 auto-trust-anchor-file: "/var/lib/unbound/root.key"
