@@ -12,11 +12,11 @@ sudo nano /etc/unbound/unbound.conf
 ### Unbound 配置文件示例
 
 
-include-toplevel: "/etc/unbound/unbound.conf.d/*.conf"
-server:
-    interface: 0.0.0.0
-    access-control: 0.0.0.0/0 allow
-    cache-max-ttl: 86400
+include-toplevel: "/etc/unbound/unbound.conf.d/*.conf"<br>
+server:<br>
+    interface: 0.0.0.0<br>
+    access-control: 0.0.0.0/0 allow<br>
+    cache-max-ttl: 86400<br>
     cache-min-ttl: 3600
     msg-cache-size: 50m
     rrset-cache-size: 100m
