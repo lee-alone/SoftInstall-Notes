@@ -11,17 +11,8 @@ sudo nano /etc/unbound/unbound.conf
 
 ### Unbound 配置文件示例
 
-# Unbound configuration file for Debian.
-#
-# See the unbound.conf(5) man page.
-#
-# See /usr/share/doc/unbound/examples/unbound.conf for a commented
-# reference config file.
-#
-# The following line includes additional configuration files from the
-# /etc/unbound/unbound.conf.d directory.
-include-toplevel: "/etc/unbound/unbound.conf.d/*.conf"
 
+include-toplevel: "/etc/unbound/unbound.conf.d/*.conf"
 server:
     interface: 0.0.0.0
     access-control: 0.0.0.0/0 allow
