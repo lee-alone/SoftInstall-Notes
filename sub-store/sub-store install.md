@@ -16,7 +16,8 @@ source /root/.bashrc
 fnm install v20.18.0
 ```
 
-`node -v `  # 回显返回版本号即为安装成功
+`node -v `  
+# 回显返回版本号即为安装成功
 `curl -fsSL https://get.pnpm.io/install.sh | sh -`
 `source /root/.bashrc`
 `mkdir -p /root/sub-store`
