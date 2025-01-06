@@ -4,27 +4,33 @@ by pass local-ip
 前端 ：https://github.com/sub-store-org/Sub-Store-Front-End
 后端：https://github.com/sub-store-org/Sub-Store
 
-```bash
+```
 apt update
 apt install unzip curl wget git sudo -y
 curl -fsSL https://fnm.vercel.app/install | bash
+```
+```
 source /root/.bashrc
+```
+```
 fnm install v20.18.0
-node -v  # 回显返回版本号即为安装成功
-curl -fsSL https://get.pnpm.io/install.sh | sh -
-source /root/.bashrc
-mkdir -p /root/sub-store
-cd sub-store
+```
+
+`node -v `  # 回显返回版本号即为安装成功
+`curl -fsSL https://get.pnpm.io/install.sh | sh -`
+`source /root/.bashrc`
+`mkdir -p /root/sub-store`
+`cd sub-store`
 # 拉取后端项目
-curl -fsSL https://github.com/sub-store-org/Sub-Store/releases/latest/download/sub-store.bundle.js -o sub-store.bundle.js
+`curl -fsSL https://github.com/sub-store-org/Sub-Store/releases/latest/download/sub-store.bundle.js -o sub-store.bundle.js`
  
 # 拉取前端项目
-curl -fsSL https://github.com/sub-store-org/Sub-Store-Front-End/releases/latest/download/dist.zip -o dist.zip
+`curl -fsSL https://github.com/sub-store-org/Sub-Store-Front-End/releases/latest/download/dist.zip -o dist.zip`
 
-unzip dist.zip && mv dist frontend && rm dist.zip
+`unzip dist.zip && mv dist frontend && rm dist.zip`
 
-nano /etc/systemd/.system/sub-store.service
-
+`nano /etc/systemd/.system/sub-store.service`
+```
 [Unit]
 Description=Sub-Store
 After=network-online.target
@@ -58,5 +64,5 @@ systemctl enable sub-store.service    #设置为开机自启
 systemctl status sub-store.service    #查看服务状态
 systemctl stop sub-store.service      #停止服务
 systemctl restart sub-store.service   #重启服务
-
-登录 http://IP:3001/?api=http://IP:3001/9GgGyhWFEguXZBT3oHPY ```
+```
+#登录 http://IP:3001/?api=http://IP:3001/9GgGyhWFEguXZBT3oHPY 
