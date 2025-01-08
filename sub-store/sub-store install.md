@@ -1,8 +1,11 @@
 by pass local-ip
-部署 sub-store
+#部署 sub-store
 
-前端 ：https://github.com/sub-store-org/Sub-Store-Front-End
-后端：https://github.com/sub-store-org/Sub-Store
+#前端 ：
+`https://github.com/sub-store-org/Sub-Store-Front-End`
+
+#后端：
+`https://github.com/sub-store-org/Sub-Store`
 
 ```
 apt update
@@ -59,11 +62,37 @@ StandardError=journal
  
 [Install]
 WantedBy=multi-user.target
-
-systemctl start sub-store.service     #启动服务
-systemctl enable sub-store.service    #设置为开机自启
-systemctl status sub-store.service    #查看服务状态
-systemctl stop sub-store.service      #停止服务
-systemctl restart sub-store.service   #重启服务
 ```
-#登录 http://IP:3001/?api=http://IP:3001/9GgGyhWFEguXZBT3oHPY 
+`systemctl start sub-store.service`     
+#启动服务
+
+`systemctl enable sub-store.service`    
+#设置为开机自启
+
+`systemctl status sub-store.service`   
+#查看服务状态
+
+`systemctl stop sub-store.service `     
+#停止服务
+
+`systemctl restart sub-store.service`   
+#重启服务
+
+
+#登录
+`http://IP:3001/?api=http://IP:3001/9GgGyhWFEguXZBT3oHPY`
+
+#更新
+`systemctl stop sub-store.service  停止服务`
+`cd sub-store`             进入 sub-store 文件夹
+# 更新项目脚本
+
+`curl -fsSL https://github.com/sub-store-org/Sub-Store/releases/latest/download/sub-store.bundle.js -o sub-store.bundle.js`
+
+`systemctl daemon-reload   `    重载服务
+
+`systemctl start sub-store.service `  启动服务
+
+`systemctl status sub-store.service`   查看服务状态
+
+
