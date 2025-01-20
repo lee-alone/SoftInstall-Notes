@@ -95,4 +95,5 @@ WantedBy=multi-user.target
 
 `systemctl status sub-store.service`   查看服务状态
 
-
+#重命名脚本
+'https://raw.githubusercontent.com/Keywos/rule/main/rename.js'
