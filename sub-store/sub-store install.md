@@ -64,25 +64,25 @@ StandardError=journal
 WantedBy=multi-user.target
 ```
 `systemctl start sub-store.service`     
-#启动服务
+# 启动服务
 
 `systemctl enable sub-store.service`    
-#设置为开机自启
+# 设置为开机自启
 
 `systemctl status sub-store.service`   
-#查看服务状态
+# 查看服务状态
 
 `systemctl stop sub-store.service `     
-#停止服务
+# 停止服务
 
 `systemctl restart sub-store.service`   
-#重启服务
+# 重启服务
 
 
-#登录
+# 登录
 `http://IP:3001/?api=http://IP:3001/9GgGyhWFEguXZBT3oHPY`
 
-#更新
+# 更新
 `systemctl stop sub-store.service  停止服务`
 `cd sub-store`             进入 sub-store 文件夹
 # 更新项目脚本
@@ -95,5 +95,5 @@ WantedBy=multi-user.target
 
 `systemctl status sub-store.service`   查看服务状态
 
-#重命名脚本
+# 重命名脚本
 'https://raw.githubusercontent.com/Keywos/rule/main/rename.js'
