@@ -2,12 +2,12 @@
 
 ## 安装 Unbound
 
-sudo apt-get update 
-sudo apt-get install unbound
+sudo apt-get update <br>
+sudo apt-get install unbound<br>
 
 ## 编辑 Unbound 配置文件
 
-sudo nano /etc/unbound/unbound.conf
+sudo nano /etc/unbound/unbound.conf<br>
 
 ### Unbound 配置文件示例
 
@@ -27,77 +27,77 @@ server:<br>
     prefetch-key: yes<br>
 
 # 设置持久化缓存的路径
-auto-trust-anchor-file: "/var/lib/unbound/root.key"
+auto-trust-anchor-file: "/var/lib/unbound/root.key"<br>
 
-forward-zone:
-        name: "."
-        forward-addr: 192.168.1.10
-        forward-addr: 192.168.1.11
+forward-zone:<br>
+        name: "."<br>
+        forward-addr: 192.168.1.10<br>
+        forward-addr: 192.168.1.11<br>
 
 ## 语法检查
 
-sudo unbound-checkconf
+sudo unbound-checkconf<br>
 
 ## 设置本地 DNS
 
 先禁用本地 DNS 服务。
 
-sudo systemctl stop systemd-resolved
-sudo systemctl disable systemd-resolved
+sudo systemctl stop systemd-resolved<br>
+sudo systemctl disable systemd-resolved<br>
 
 启用 Unbound 服务。
 
-sudo systemctl start unbound 
-sudo systemctl enable unbound
+sudo systemctl start unbound <br>
+sudo systemctl enable unbound<br>
 
 修改 resolv.conf 文件，将 nameserver 修改为本地。
 
-sudo nano /etc/resolv.conf
-nameserver 127.0.0.1
+sudo nano /etc/resolv.conf<br>
+nameserver 127.0.0.1<br>
 
 防止 resolv.conf 被覆盖。
 
-sudo chattr +i /etc/resolv.conf
+sudo chattr +i /etc/resolv.conf<br>
 
 ## 配置文档加入
 
 在 Unbound 配置文件中加入以下内容，以使用 4 线程：
 
-server: 
-    num-threads: 4
+server: <br>
+    num-threads: 4<br>
 
 查看 Unbound 服务状态：
 
-sudo unbound-control status 
+sudo unbound-control status <br>
 
 ## 递归配置
 
-1. 安装 anchor：
-   sudo apt install unbound-anchor
+1. 安装 anchor：<br>
+   sudo apt install unbound-anchor<br>
 
-2. 建立所需文件夹：
-   sudo mkdir -p /var/lib/unbound
+2. 建立所需文件夹：<br>
+   sudo mkdir -p /var/lib/unbound<br>
 
-3. 修改文件夹权限：
-   sudo chown unbound:unbound /var/lib/unbound
+3. 修改文件夹权限：<br>
+   sudo chown unbound:unbound /var/lib/unbound<br>
 
-4. 下载根服务器地址：
-   sudo wget -O /var/lib/unbound/root.hints https://www.internic.net/domain/named.cache
+4. 下载根服务器地址：<br>
+   sudo wget -O /var/lib/unbound/root.hints https://www.internic.net/domain/named.cache<br>
 
-5. 修改权限：
-   sudo chown unbound:unbound /var/lib/unbound/root.hints
+5. 修改权限：<br>
+   sudo chown unbound:unbound /var/lib/unbound/root.hints<br>
 
-6. DNSSEC 信任锚检测：
-   sudo unbound-anchor -a "/var/lib/unbound/root.key"
+6. DNSSEC 信任锚检测：<br>
+   sudo unbound-anchor -a "/var/lib/unbound/root.key"<br>
 
-7. 编辑 Unbound 配置文件：
-   sudo nano /etc/unbound/unbound.conf
+7. 编辑 Unbound 配置文件：<br>
+   sudo nano /etc/unbound/unbound.conf<br>
 
 ### 更新的 Unbound 配置文件
 
-include-toplevel: "/etc/unbound/unbound.conf.d/*.conf"
+include-toplevel: "/etc/unbound/unbound.conf.d/*.conf"<br>
 
-server:
+server:<br>
     interface: 0.0.0.0<br>
     access-control: 0.0.0.0/0 allow<br>
     do-udp: yes<br>
