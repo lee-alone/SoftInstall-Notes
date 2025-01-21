@@ -114,10 +114,10 @@ server:
     prefetch: yes<br>
     prefetch-key: yes<br>
 
-# 设置持久化缓存的路径
+### 设置持久化缓存的路径
 auto-trust-anchor-file: "/var/lib/unbound/root.key"
 root-hints: "/var/lib/unbound/root.hints"
 
-# 启用服务时加载缓存数据
+### 启用服务时加载缓存数据
 use-caps-for-id: yes
 module-config: "iterator"
