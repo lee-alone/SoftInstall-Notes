@@ -25,9 +25,9 @@ server:<br>
     so-rcvbuf: 4m<br>    //宿主机需要sysctl -w net.core.rmem_max=8388608 或者直接写入到/etc/sysctl.conf；net.core.rmem_max=8388608 设置成内存分块为8兆
     prefetch: yes<br>
     prefetch-key: yes<br>    //预读取设置
-    serve-expired: yes
-    serve-expired-ttl: 30
-    serve-expired-client-timeout: 1800 //过期数据处理
+    serve-expired: yes<br>
+    serve-expired-ttl: 30<br>
+    serve-expired-client-timeout: 1800<br> //过期数据处理
 
 # 设置持久化缓存的路径
 auto-trust-anchor-file: "/var/lib/unbound/root.key"<br>
