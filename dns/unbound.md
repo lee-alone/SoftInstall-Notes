@@ -18,13 +18,16 @@ server:<br>
     access-control: 0.0.0.0/0 allow<br>
     cache-max-ttl: 86400<br>
     cache-min-ttl: 3600<br>
-    msg-cache-size: 50m<br>
-    rrset-cache-size: 100m<br>
+    msg-cache-size: 256m<br>   //直接缓冲，设置成内存的1/4
+    rrset-cache-size: 256m<br>  // 建议为msg-cache-size的2倍
     module-config: "iterator"<br>
     outgoing-range: 8192<br>
-    so-rcvbuf: 4m<br>
+    so-rcvbuf: 4m<br>    //宿主机需要sysctl -w net.core.rmem_max=8388608 或者直接写入到/etc/sysctl.conf；net.core.rmem_max=8388608 设置成内存分块为8兆
     prefetch: yes<br>
-    prefetch-key: yes<br>
+    prefetch-key: yes<br>    //预读取设置
+    serve-expired: yes
+    serve-expired-ttl: 30
+    serve-expired-client-timeout: 1800 //过期数据处理
 
 # 设置持久化缓存的路径
 auto-trust-anchor-file: "/var/lib/unbound/root.key"<br>
