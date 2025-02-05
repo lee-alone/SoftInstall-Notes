@@ -119,6 +119,11 @@ server:<br>
     prefetch: yes<br>
     prefetch-key: yes<br>
 
+    cache-max-negative-ttl: 0<br>
+     # 设置负面响应的最大缓存时间，单位为秒
+
+
+
 ### 设置持久化缓存的路径
 auto-trust-anchor-file: "/var/lib/unbound/root.key"<br>
 root-hints: "/var/lib/unbound/root.hints"<br>
