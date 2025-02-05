@@ -119,7 +119,7 @@ server:<br>
     prefetch: yes<br>
     prefetch-key: yes<br>
 
-    cache-max-negative-ttl: 0<br>
+    cache-max-negative-ttl: 0
      # 设置负面响应的最大缓存时间，单位为秒
 
 
