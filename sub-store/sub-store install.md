@@ -97,3 +97,9 @@ WantedBy=multi-user.target
 
 # 重命名脚本
 'https://raw.githubusercontent.com/Keywos/rule/main/rename.js'
+# 开源节点
+https://raw.githubusercontent.com/mahdibland/ShadowsocksAggregator/master/Eternity
+https://raw.githubusercontent.com/Leon406/SubCrawler/refs/heads/main/sub/share/vless
+https://raw.githubusercontent.com/chengaopan/AutoMergePublicNodes/refs/heads/master/snippets/nodes.yml
+https://raw.githubusercontent.com/Pawdroid/Free-servers/refs/heads/main/sub
+https://raw.githubusercontent.com/aiboboxx/v2rayfree/refs/heads/main/v2
