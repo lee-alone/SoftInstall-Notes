@@ -1,0 +1,61 @@
+
+磁盘设置：
+
+项目	推荐设置	原因
+缓存	写回（Write Back）	减少每次写入硬盘，延长寿命
+异步 IO	io_uring（保持）	性能优良
+SSD 仿真	根据实际盘选择	SSD 提高虚拟机 I/O 效率
+跳过复制	勾选	减少不必要写入
+备份	保留或按需求	备份增加写入，必要时可关
+
+软件设置：
+1. 使用tmpfs挂载/tmp和/var/log（将临时文件和日志移到RAM）
+
+原理：OpenWRT默认将/tmp和部分/var作为内存盘（tmpfs），但日志（如syslog）可能仍写入磁盘。移到tmpfs后，这些数据仅存于RAM，重启丢失，但大大减少磁盘写入。成品路由器常用此法延长闪存寿命。
+配置步骤：
+
+通过SSH或LuCI登录OpenWRT。
+编辑/etc/fstab（如果不存在，可创建）：
+nano /etc/fstab
+
+
+tmpfs /tmp tmpfs defaults,noatime,size=256M 0 0
+tmpfs /var/log tmpfs defaults,noatime,size=128M 0 0
+
+noatime：禁用访问时间记录，进一步减少写入。
+
+重启或手动挂载：mount -a。
+检查：df -h 应显示/tmp和/var/log为tmpfs。
+
+
+
+2. 优化日志配置（减少或重定向日志写入）
+原理：日志是常见写入源（如dnsmasq、firewall日志）。降低日志级别或重定向到RAM/远程，能减少80%以上的写入，而成品路由器往往默认低日志以保寿命。
+配置步骤：
+
+    编辑syslog配置：nano /etc/config/system，修改：
+    option log_size '64'  # 限制日志文件大小（KB）
+    option log_file '/var/log/messages'  # 但结合tmpfs，确保在RAM
+
+    降低日志级别：在/etc/config/system添加：
+    option log_level 'warn'  # 只记录警告以上级别，减少琐碎日志
+
+    如果需要持久日志，配置远程syslog：
+    安装opkg update && opkg install syslog-ng（如果未安装）。
+    编辑/etc/syslog-ng/syslog-ng.conf，添加远程目标：
+    destination remote { udp("192.168.1.100" port(514)); };  # 替换为您的日志服务器IP
+    log { source(src); destination(remote); };
+    重启服务：/etc/init.d/syslog-ng restart。
+
+    对于特定服务（如AdGuard Home或 luci-app-statistics，如果安装），检查其日志路径，确保移到/tmp，并用cron每周清理（例如，cron任务：0 0 * * 0 rm -f /tmp/*.log）。
+
+
+3. 挂载选项优化（启用noatime和nodiratime）
+
+    原理：默认挂载记录文件访问时间（atime），每次读文件都会引发小写入。禁用它几乎无性能损失，但显著减少写入，尤其在路由器的高频文件访问中。
+    配置步骤：
+
+    编辑/etc/fstab，为根分区（通常/overlay）添加选项：
+    /dev/root /overlay ext4 rw,noatime,nodiratime 0 0
+    重启或mount -o remount,noatime /overlay。
+    
