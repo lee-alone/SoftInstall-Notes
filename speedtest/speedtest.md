@@ -1,5 +1,6 @@
 ### 安装nginx
 apt install nginx
+推荐安装apache2 php libapache2-mod-php
 
 ### 首页路径/var/www/html
 ### 拉取speedtest代码
