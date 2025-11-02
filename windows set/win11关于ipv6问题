@@ -1,0 +1,10 @@
+ipconfig /all
+查找：  默认网关. . . . . . . . . . . . . : fe80::be24:11ff:fedb:c987%15
+                                  关键的就是后面这个%15需要传递给下面命令
+
+
+netsh interface ipv6 delete route ::/0 interface=15
+netsh interface ipv6 set interface 15 routerdiscovery=enabled
+拔插网线 / 重连 Wi-Fi / 重启接口，
+本意就是让路由器重新发 RA。
+适用于op系的路由器。
