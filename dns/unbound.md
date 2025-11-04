@@ -131,3 +131,29 @@ root-hints: "/var/lib/unbound/root.hints"<br>
 ### 启用服务时加载缓存数据
 use-caps-for-id: yes<br>
 module-config: "iterator"<br>
+
+
+
+备用配置：
+    interface: 0.0.0.0@53
+    access-control: 0.0.0.0/0 allow
+    do-ip4: yes
+    do-ip6: yes
+    prefetch: yes
+    prefetch-key: yes
+    harden-dnssec-stripped: yes
+    harden-large-queries: yes
+    cache-max-ttl: 86400
+    cache-min-ttl: 3600
+    msg-cache-size: 100m
+    rrset-cache-size: 200m
+    num-threads: 6
+    outgoing-range: 2048
+    num-queries-per-thread: 1024
+    jostle-timeout: 200
+    infra-cache-min-rtt: 5000
+    infra-cache-max-rtt: 50000
+    neg-cache-size: 0
+
+
+
