@@ -19,7 +19,7 @@ mkdir -p /var/lib/unbound
 chown unbound:unbound /var/lib/unbound
 
 # 下载根服务器地址 (root.hints)
-wget -O /var/lib/unbound/root.hints https://www.internic.net/domain/named.cache
+wget -O /var/lib/unbound/root.hints [https://www.internic.net/domain/named.cache](https://www.internic.net/domain/named.cache)
 chown unbound:unbound /var/lib/unbound/root.hints
 
 # 初始化 DNSSEC 信任锚 (root.key)
@@ -31,42 +31,40 @@ unbound-anchor -a "/var/lib/unbound/root.key"
 
 nano /etc/unbound/unbound.conf
 
-# 请将以下内容粘贴到配置文件中，实现纯粹的递归解析器：
+# 请将以下内容粘贴到配置文件中：
+# -------------------- Unbound 配置开始 (无缩进) --------------------
 
 include-toplevel: "/etc/unbound/unbound.conf.d/*.conf"
 
 server:
-    # --- 监听和访问控制 ---
-    interface: 0.0.0.0@53         # 监听所有 IP 的 53 端口
-    access-control: 127.0.0.0/8 allow
-    access-control: <你的局域网网段>/<掩码> allow 
-    
-    # --- 性能优化 ---
-    num-threads: 4                 # 使用 4 个线程
-    msg-cache-size: 256m           
-    rrset-cache-size: 512m         
-    outgoing-range: 8192           
-    so-rcvbuf: 8m                  
-    
-    # --- 缓存和 TTL ---
-    cache-max-ttl: 86400           
-    cache-min-ttl: 3600            
-    serve-expired: yes             
-    serve-expired-ttl: 30
-    serve-expired-client-timeout: 1800
-    
-    # --- 提升速度和 DNSSEC ---
-    prefetch: yes                  
-    prefetch-key: yes              
-    do-udp: yes
-    do-tcp: yes
-    module-config: "iterator"      # 纯递归配置
-    harden-dnssec-stripped: yes    
-    
-    # --- 信任锚和根提示 ---
-    auto-trust-anchor-file: "/var/lib/unbound/root.key"
-    root-hints: "/var/lib/unbound/root.hints"
-    use-caps-for-id: yes 
+interface: 0.0.0.0@53         # 监听所有 IP 的 53 端口
+access-control: 127.0.0.0/8 allow
+access-control: <你的局域网网段>/<掩码> allow 
+
+num-threads: 4                 # 使用 4 个线程
+msg-cache-size: 256m           
+rrset-cache-size: 512m         
+outgoing-range: 8192           
+so-rcvbuf: 8m                  
+
+cache-max-ttl: 86400           # 缓存最大 TTL (24 小时)
+cache-min-ttl: 3600            # 缓存最小 TTL
+serve-expired: yes             
+serve-expired-ttl: 30
+serve-expired-client-timeout: 1800
+
+prefetch: yes                  
+prefetch-key: yes              
+do-udp: yes
+do-tcp: yes
+module-config: "iterator"      # 纯递归配置
+harden-dnssec-stripped: yes    
+
+auto-trust-anchor-file: "/var/lib/unbound/root.key"
+root-hints: "/var/lib/unbound/root.hints"
+use-caps-for-id: yes 
+
+# -------------------- Unbound 配置结束 --------------------
 
 
 ### 4. 禁用本地 DNS 服务 (systemd-resolved)
