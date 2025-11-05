@@ -38,12 +38,12 @@ nano /etc/dnsdist/dnsdist.conf
 # 请将以下内容粘贴到配置文件中：
 
 -- dnsdist 1.8 minimal config
-setLocal("0.0.0.0:53")
+setLocal("0.0.0.0:53", {reusePort=true})
 
 newServer({address="192.168.1.10", name="unbound"})
 newServer({address="192.168.1.11", name="pdns"})
 
-setServerPolicy(roundrobin)
+setServerPolicy(leastOutstanding)
 
 pc = newPacketCache(10000, {maxTTL=86400})
 getPool(""):setCache(pc)
