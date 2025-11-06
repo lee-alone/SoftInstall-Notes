@@ -36,75 +36,50 @@ apt install dnsdist -y
 nano /etc/dnsdist/dnsdist.conf
 
 # 请将以下内容粘贴到配置文件中：
+-- =========================================================
+-- dnsdist 2.0.1 兼容配置 (极简且稳定)
+-- 目的：实现监听、转发、轮询和故障自动切换
+-- =========================================================
 
--- dnsdist 2.0 最小化兼容配置（轮询 + 超时自动切换）
-
--- 监听端口
+-- 1. 监听端口
 setLocal("0.0.0.0:53", {reusePort=true})
 
--- 上游递归服务器
+-- 2. 上游递归服务器配置
+-- retries=1 允许在第一次查询超时/失败后，自动切换到另一台服务器
 newServer({
     address="192.168.1.10",
     name="unbound",
-    retries=1,
-    order=1
+    retries=1
 })
 
 newServer({
     address="192.168.1.11",
     name="pdns",
-    retries=1,
-    order=1
+    retries=1
 })
 
--- 轮询策略
+-- 3. 转发策略
+-- 使用内置的轮询策略
 setServerPolicy(roundrobin)
 
--- 缓存
+-- 4. 缓存
 pc = newPacketCache(10000, {maxTTL=86400})
 getPool(""):setCache(pc)
 
--- 控制接口
-controlSocket("127.0.0.1:5199")
+-- 【最终修正】移除所有 setServFailWhenDown / setServFail... 相关函数调用
+-- 在 2.0.2 版本中，这些函数不存在。
+
+-- 5. 控制接口和 Web 界面
 addACL("127.0.0.1")
 addACL("192.168.1.0/24")
 
--- Web 界面
+controlSocket("127.0.0.1:5199")
+
 setWebserverConfig{
     password = 'admin123',
-    apiKey   = 'apikey123',
     acl      = '127.0.0.1,192.168.1.0/24'
 }
 webserver("0.0.0.0:8080")
-
--- Lua 可选轮询 + 超时重试逻辑
-local servers = getServers()
-local rr_counter = 0
-
-addAction(AllRule(), LuaAction(function(dq)
-    local n = #servers
-    if n == 0 then
-        return DNSAction.ServFail
-    end
-
-    rr_counter = (rr_counter % n) + 1
-    local firstIndex = rr_counter
-
-    local ok = dq:recurse({servers[firstIndex]})
-    if ok and dq.dh and dq.dh.rcode == 0 then
-        return DNSAction.None
-    end
-
-    for i = 1, n-1 do
-        local idx = ((firstIndex + i - 1) % n) + 1
-        local r = dq:recurse({servers[idx]})
-        if r and dq.dh and dq.dh.rcode == 0 then
-            return DNSAction.None
-        end
-    end
-
-    return DNSAction.ServFail
-end))
 
 
 ### 5. 启动与验证服务
