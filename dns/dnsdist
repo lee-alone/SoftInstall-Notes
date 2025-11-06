@@ -18,7 +18,7 @@ dnsdist 由 PowerDNS 维护。为了安装特定版本的 dnsdist 1.8，需要�
 curl https://repo.powerdns.com/FD380FBB-pub.asc | gpg --dearmor -o /usr/share/keyrings/pdns-archive-keyring.gpg
 
 # 步骤 B: 添加 dnsdist 1.8 的软件源列表文件
-echo "deb [signed-by=/usr/share/keyrings/pdns-archive-keyring.gpg] https://repo.powerdns.com/debian $(lsb_release -c -s)-dnsdist-18 main" | tee /etc/apt/sources.list.d/dnsdist.list
+echo "deb [signed-by=/usr/share/keyrings/pdns-archive-keyring.gpg] https://repo.powerdns.com/debian $(lsb_release -c -s)-dnsdist-20 main" | tee /etc/apt/sources.list.d/dnsdist.list
 
 # 步骤 C: 重新加载软件包列表以识别新的仓库
 apt update
