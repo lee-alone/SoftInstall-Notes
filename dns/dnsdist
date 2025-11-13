@@ -49,12 +49,16 @@ setLocal("0.0.0.0:53", {reusePort=true})
 newServer({
     address="192.168.1.10",
     name="unbound",
+    sockets = 4, 
+    maxInFlight = 200,
     retries=1
 })
 
 newServer({
     address="192.168.1.11",
     name="pdns",
+    sockets = 4, 
+    maxInFlight = 200,
     retries=1
 })
 
