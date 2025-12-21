@@ -27,3 +27,27 @@ systemctl restart pdns-recursor
 
 # 检查服务状态，确保其已正常运行
 systemctl status pdns-recursor
+
+5.0以上系统使用如下配置：
+
+dnssec:
+  validation: process  # 推荐保留，启用 DNSSEC 验证
+  trustanchorfile: /usr/share/dns/root.key
+
+recursor:
+  hint_file: /usr/share/dns/root.hints
+  include_dir: /etc/powerdns/recursor.d
+  security_poll_suffix: ''
+
+incoming:
+  listen:
+    - 0.0.0.0  # 监听所有 IPv4 接口（你的服务器公网/内网 IP）
+    - '::'     # 监听所有 IPv6 接口（如果服务器支持 IPv6，可选保留）
+  allow_from:
+    - 192.168.1.0/24  # 只允许你的网段查询（包括 192.168.1.1）
+    - 127.0.0.0/8     # 推荐保留本地回环
+    - ::1/128         # 如果需要 IPv6 本地回环
+
+outgoing:
+  source_address:
+    - 0.0.0.0  # 默认，可保留（从可用接口选择源 IP）
