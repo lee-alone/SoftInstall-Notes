@@ -92,3 +92,55 @@ nano /etc/resolv.conf
 #
 # 防止 resolv.conf 被覆盖 
 # chattr +i /etc/resolv.conf
+
+
+
+1.22版所使用配置：
+
+server:
+    interface: 0.0.0.0@53
+    do-ip4: yes
+    do-ip6: no
+    do-udp: yes
+    do-tcp: yes
+
+    access-control: 127.0.0.0/8 allow
+    access-control: 192.168.1.0/24 allow
+
+    tcp-upstream: yes              # 新增：强制上游查询使用 TCP
+    num-threads: 4
+    msg-cache-size: 256m
+    rrset-cache-size: 512m
+    outgoing-range: 8192
+    so-rcvbuf: 8m
+
+    cache-max-ttl: 86400
+    cache-min-ttl: 3600
+    serve-expired: yes
+    serve-expired-ttl: 86400
+    serve-expired-reply-ttl: 30
+    serve-expired-client-timeout: 1800
+
+    prefetch: yes
+    prefetch-key: yes
+
+    harden-dnssec-stripped: yes
+    harden-glue: yes
+    harden-referral-path: yes
+    qname-minimisation: yes
+    minimal-responses: yes
+    use-caps-for-id: yes
+
+    so-reuseport: yes
+
+    private-address: 192.168.0.0/16
+    private-address: 10.0.0.0/8
+    private-address: 172.16.0.0/12
+    private-address: 169.254.0.0/16
+    private-address: fd00::/8
+    private-address: fe80::/10
+
+    root-hints: "/var/lib/unbound/root.hints"
+
+    module-config: "iterator"  # Pure recursive, no validator module needed for basic DNSSEC
+
