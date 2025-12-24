@@ -3,6 +3,8 @@ openwrt 快速原厂编译
 1，使用浅层克隆
 
 git clone --depth=1 https://github.com/openwrt/openwrt.git
+
+cd openwrt
 2，使用ps2
 nano feeds.conf.default
 
