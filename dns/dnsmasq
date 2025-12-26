@@ -1,0 +1,14 @@
+一、关闭高版本>2.88版本的轮询功能。
+dnsmasq 默认开启了 round-robin 轮询
+即ip池内的ip访问一次就向后移动一位，实现轮询。
+关闭轮询：
+  1.  mkdir -p /etc/dnsmasq.d
+      echo "no-round-robin" > /etc/dnsmasq.d/fix-order.conf
+  建立一个文件夹用来保存单独的命令。
+  2. echo "list confdir '/etc/dnsmasq.d/'" >> /etc/config/dhcp
+  但是这个会把命令直接放到最后面所以不要直接运行。需要
+  nano /etc/config/dhcp
+  在dnsmasq的配置选项中加进去
+  list confdir '/etc/dnsmasq.d/
+  3. 重启一下dnsmasq
+  /etc/init.d/dnsmasq restart
