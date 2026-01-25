@@ -30,24 +30,26 @@ systemctl status pdns-recursor
 
 5.0以上系统使用如下配置：
 
+nano /etc/powerdns/recursor.yml 
 dnssec:
-  validation: process  # 推荐保留，启用 DNSSEC 验证
-  trustanchorfile: /usr/share/dns/root.key
+  validation: validate
 
 recursor:
-  hint_file: /usr/share/dns/root.hints
-  include_dir: /etc/powerdns/recursor.d
-  security_poll_suffix: ''
+  threads: 4
+
+packetcache:
+  max_entries: 500000
+  negative_ttl: 60
 
 incoming:
   listen:
-    - 0.0.0.0  # 监听所有 IPv4 接口（你的服务器公网/内网 IP）
-    - '::'     # 监听所有 IPv6 接口（如果服务器支持 IPv6，可选保留）
+    - 0.0.0.0
+    - "::"
   allow_from:
-    - 192.168.1.0/24  # 只允许你的网段查询（包括 192.168.1.1）
-    - 127.0.0.0/8     # 推荐保留本地回环
-    - ::1/128         # 如果需要 IPv6 本地回环
+    - 192.168.1.0/24
+    - 127.0.0.0/8
+    - "::1/128"
 
 outgoing:
   source_address:
-    - 0.0.0.0  # 默认，可保留（从可用接口选择源 IP）
+    - 0.0.0.0
