@@ -1,41 +1,68 @@
-## 程序安装教程：基于 Debian 12 安装和配置 dnsdist 1.8
+# dnsdist - DNS 负载均衡器
 
-### ❗ 重要说明
-本教程假设您已使用 root 用户登录或通过 su 命令切换到 root 权限执行操作，因此所有命令均未加 sudo。
+基于 Debian 12 安装和配置 **dnsdist 1.8** 的完整教程。
 
-### 1. 环境准备与依赖安装
+## 目录
 
-首先，更新系统软件包列表并安装所需的依赖工具。
+- [重要说明](#重要说明)
+- [环境准备](#环境准备与依赖安装)
+- [添加软件仓库](#添加-powerdns-软件仓库)
+- [安装 dnsdist](#安装-dnsdist)
+- [配置文件](#配置-dnsdist)
+- [启动服务](#启动与验证服务)
 
+## 重要说明
+
+⚠️ 本教程假设您已使用 **root** 用户登录或通过 `su` 命令切换到 root 权限执行操作，因此所有命令均**未加 sudo**。
+
+## 环境准备与依赖安装
+
+首先，更新系统软件包列表并安装所需的依赖工具：
+
+```bash
 apt update && apt upgrade -y
 apt install -y curl gnupg2 lsb-release ca-certificates
+```
 
-### 2. 添加 PowerDNS 软件仓库
+## 添加 PowerDNS 软件仓库
 
 dnsdist 由 PowerDNS 维护。为了安装特定版本的 dnsdist 1.8，需要添加其官方软件源。
 
-# 步骤 A: 导入 PowerDNS 软件仓库的 GPG 密钥，用于验证软件包的真实性
+### 步骤 A: 导入 GPG 密钥
+
+```bash
 curl https://repo.powerdns.com/FD380FBB-pub.asc | gpg --dearmor -o /usr/share/keyrings/pdns-archive-keyring.gpg
+```
 
-# 步骤 B: 添加 dnsdist 1.8 的软件源列表文件
+### 步骤 B: 添加软件源
+
+```bash
 echo "deb [signed-by=/usr/share/keyrings/pdns-archive-keyring.gpg] https://repo.powerdns.com/debian $(lsb_release -c -s)-dnsdist-20 main" | tee /etc/apt/sources.list.d/dnsdist.list
+```
 
-# 步骤 C: 重新加载软件包列表以识别新的仓库
+### 步骤 C: 更新软件包列表
+
+```bash
 apt update
+```
 
-### 3. 安装 dnsdist
+## 安装 dnsdist
 
-执行安装命令：
-
+```bash
 apt install dnsdist -y
+```
 
-### 4. 配置 dnsdist
+## 配置 dnsdist
 
-使用 nano 编辑 dnsdist 的配置文件。
+编辑配置文件：
 
+```bash
 nano /etc/dnsdist/dnsdist.conf
+```
 
-# 请将以下内容粘贴到配置文件中：
+将以下内容粘贴到配置文件中：
+
+```lua
 -- =========================================================
 -- dnsdist 2.0.1 兼容配置 (极简且稳定)
 -- 目的：实现监听、转发、轮询和故障自动切换
@@ -70,9 +97,6 @@ setServerPolicy(roundrobin)
 pc = newPacketCache(10000, {maxTTL=86400})
 getPool(""):setCache(pc)
 
--- 【最终修正】移除所有 setServFailWhenDown / setServFail... 相关函数调用
--- 在 2.0.2 版本中，这些函数不存在。
-
 -- 5. 控制接口和 Web 界面
 addACL("127.0.0.1")
 addACL("192.168.1.0/24")
@@ -84,12 +108,14 @@ setWebserverConfig{
     acl      = '127.0.0.1,192.168.1.0/24'
 }
 webserver("0.0.0.0:8080")
+```
 
+## 启动与验证服务
 
-### 5. 启动与验证服务
+设置开机自启并启动服务，最后检查状态：
 
-设置开机自启并启动服务，最后检查状态。
-
+```bash
 systemctl enable dnsdist
 systemctl start dnsdist
 systemctl status dnsdist
+```
